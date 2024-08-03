@@ -1,0 +1,65 @@
+<div class="bg-white rounded-lg shadow-md p-6">
+  <h2 class="text-2xl font-semibold mb-6 text-gray-800">Gestion des Burgers</h2>
+
+  <!-- Burger Form -->
+  <form [formGroup]="burgerForm" (ngSubmit)="onSubmit()" class="mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
+        <input type="text" id="nom" formControlName="nom" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+      </div>
+      <div>
+        <label for="prix" class="block text-sm font-medium text-gray-700">Prix</label>
+        <input type="number" id="prix" formControlName="prix" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+      </div>
+    </div>
+    <div class="mt-4">
+      <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+      <textarea id="description" formControlName="description" rows="3" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+    </div>
+    <div class="mt-4">
+      <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>
+      <input type="text" id="image" formControlName="image" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+    </div>
+    <div class="mt-6">
+      <button type="submit" [disabled]="!burgerForm.valid" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        {{ editMode ? 'Mettre à jour' : 'Ajouter' }} le burger
+      </button>
+      <button type="button" (click)="resetForm()" class="ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        Réinitialiser
+      </button>
+    </div>
+  </form>
+
+  <!-- Burger List -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+      </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+      <ng-container *ngIf="burgers && burgers.length > 0; else noBurgers">
+      <tr *ngFor="let burger of burgers">
+        <td class="px-6 py-4 whitespace-nowrap">{{ burger.nom }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ burger.prix | currency:'EUR' }}</td>
+        <td class="px-6 py-4">{{ burger.description }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+          <button (click)="editBurger(burger)" class="text-indigo-600 hover:text-indigo-900 mr-2">Modifier</button>
+          <button (click)="archiveBurger(burger.id)" class="text-red-600 hover:text-red-900">Archiver</button>
+        </td>
+      </tr>
+      </ng-container>
+        <ng-template #noBurgers>
+          <tr>
+            <td colspan="4" class="px-6 py-4 text-center text-gray-500">Aucun burger disponible</td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>

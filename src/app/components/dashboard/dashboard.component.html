@@ -1,0 +1,58 @@
+
+<div class="container mx-auto px-6 py-8">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Tableau de bord</h1>
+      <!-- Statistics cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-2 text-gray-700">Commandes en cours</h2>
+          <p class="text-3xl font-bold text-blue-600">{{ statistiquesJour?.commandesEnCours || 0 }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-2 text-gray-700">Commandes validées</h2>
+          <p class="text-3xl font-bold text-green-600">{{ statistiquesJour?.commandesValidees || 0 }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-2 text-gray-700">Commandes annulées</h2>
+          <p class="text-3xl font-bold text-red-600">{{ statistiquesJour?.commandesAnnulees || 0 }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-2 text-gray-700">Paiements</h2>
+          <p class="text-3xl font-bold text-yellow-600">{{ statistiquesJour?.paiements || 0 }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-2 text-gray-700">Burgers vendus</h2>
+          <p class="text-3xl font-bold text-purple-600">{{ statistiquesJour?.burgersVendus || 0 }}</p>
+        </div>
+      </div>
+
+      <!-- Burger management -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Gestion des Burgers</h2>
+        <!-- Add burger form and list here -->
+      </div>
+
+      <!-- Recent payments -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Paiements récents</h2>
+        <!-- Add recent payments table here -->
+      </div>
+
+      <!-- Current orders -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Commandes en cours</h2>
+        <!-- Add current orders table here -->
+      </div>
+
+      <!-- Validated orders -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Commandes validées</h2>
+        <!-- Add validated orders table here -->
+      </div>
+
+      <!-- Cancelled orders -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Commandes annulées</h2>
+        <!-- Add cancelled orders table here -->
+      </div>
+    </div>
+

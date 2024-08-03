@@ -1,0 +1,139 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8 text-center text-blue-600">Gestion des Commandes</h1>
+
+  <!-- Statistiques -->
+  <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+    <h2 class="text-xl font-semibold mb-4">Statistiques du Jour</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-blue-100 p-4 rounded-lg">
+        <p class="text-sm text-blue-600">Commandes en cours</p>
+        <p class="text-2xl font-bold">{{ statistiquesJour?.enCours || 0 }}</p>
+      </div>
+      <div class="bg-green-100 p-4 rounded-lg">
+        <p class="text-sm text-green-600">Commandes validées</p>
+        <p class="text-2xl font-bold">{{ statistiquesJour?.validees || 0 }}</p>
+      </div>
+      <div class="bg-red-100 p-4 rounded-lg">
+        <p class="text-sm text-red-600">Commandes annulées</p>
+        <p class="text-2xl font-bold">{{ statistiquesJour?.annulees || 0 }}</p>
+      </div>
+      <div class="bg-yellow-100 p-4 rounded-lg">
+        <p class="text-sm text-yellow-600">Recettes journalières</p>
+        <p class="text-2xl font-bold">{{ statistiquesJour?.recettes || '0 €' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des commandes -->
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-8">
+    <div class="px-6 py-4 bg-gray-100 border-b flex justify-between items-center">
+      <h2 class="text-xl font-semibold">Liste des Commandes</h2>
+      <button (click)="openModal()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+        Ajouter une commande
+      </button>
+    </div>
+    <div class="p-6">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left table-auto">
+          <thead>
+          <tr class="bg-gray-200">
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Client</th>
+            <th class="px-4 py-2">Burger</th>
+            <th class="px-4 py-2">Quantité</th>
+            <th class="px-4 py-2">État</th>
+            <th class="px-4 py-2">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngIf="commandes && commandes.length > 0; else noCommandes">
+          <tr *ngFor="let commande of commandes" class="border-b hover:bg-gray-50">
+            <td class="px-4 py-2">{{ commande.id }}</td>
+            <td class="px-4 py-2">{{ commande.client?.nom }} {{ commande.client?.prenom }}</td>
+            <td class="px-4 py-2">{{ commande.burger?.nom }}</td>
+            <td class="px-4 py-2">{{ commande.quantite }}</td>
+            <td class="px-4 py-2">
+                <span [ngClass]="{
+                  'bg-yellow-200 text-yellow-800': commande.etat === 'en_cours',
+                  'bg-green-200 text-green-800': commande.etat === 'termine',
+                  'bg-red-200 text-red-800': commande.etat === 'annule'
+                }" class="px-2 py-1 rounded-full text-xs font-semibold">
+                  {{ commande.etat }}
+                </span>
+            </td>
+            <td class="px-4 py-2">
+              <button (click)="openModal(commande)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mr-2">
+                <i class="fas fa-edit"></i> Modifier
+              </button>
+              <button (click)="deleteCommande(commande.id!)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded mr-2">
+                <i class="fas fa-trash"></i> Supprimer
+              </button>
+              <button (click)="changeEtat(commande.id!, 'termine')" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mr-2">
+                <i class="fas fa-check"></i> Valider
+              </button>
+              <button (click)="annulerCommande(commande.id!)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">
+                <i class="fas fa-times"></i> Annuler
+              </button>
+            </td>
+          </tr>
+          </ng-container>
+          <ng-template #noCommandes>
+            <tr>
+              <td colspan="4" class="px-6 py-4 text-center text-gray-500">Aucune commande disponible</td>
+            </tr>
+          </ng-template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour l'ajout/modification de commande -->
+  <div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+      <div class="mt-3 text-center">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">{{ isEditMode ? 'Modifier' : 'Ajouter' }} une commande</h3>
+        <form [formGroup]="commandeForm" (ngSubmit)="submitCommande()" class="mt-2">
+          <input type="hidden" formControlName="clientId" id="clientId">
+          <div class="mb-4">
+            <label for="clientNom" class="block text-gray-700 text-sm font-bold mb-2">Nom du client</label>
+            <input type="text" formControlName="clientNom" id="clientNom" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="clientPrenom" class="block text-gray-700 text-sm font-bold mb-2">Prénom du client</label>
+            <input type="text" formControlName="clientPrenom" id="clientPrenom" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="clientTelephone" class="block text-gray-700 text-sm font-bold mb-2">Téléphone du client</label>
+            <input type="tel" formControlName="clientTelephone" id="clientTelephone" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="clientEmail" class="block text-gray-700 text-sm font-bold mb-2">Email du client</label>
+            <input type="email" formControlName="clientEmail" id="clientEmail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="burgerId" class="block text-gray-700 text-sm font-bold mb-2">Burger</label>
+            <input type="text" (input)="filterBurgers($event)" placeholder="Rechercher un burger" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
+            <select formControlName="burgerId" id="burgerId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="">Sélectionnez un burger</option>
+              <option *ngFor="let burger of filteredBurgers" [value]="burger.id">{{ burger.nom }}</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="quantite" class="block text-gray-700 text-sm font-bold mb-2">Quantité</label>
+            <input type="number" formControlName="quantite" id="quantite" min="1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+            </button>
+            <button type="button" (click)="closeModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Annuler
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
