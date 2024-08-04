@@ -1,0 +1,58 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">Notre Menu</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div *ngFor="let burger of burgers" class="bg-white rounded-lg shadow-md overflow-hidden">
+      <img [src]="burger.image" [alt]="burger.nom" class="w-full h-48 object-cover">
+      <div class="p-4">
+        <h2 class="font-bold text-xl mb-2">{{ burger.nom }}</h2>
+        <p class="text-gray-600 mb-4">{{ burger.description }}</p>
+        <p class="text-green-600 font-bold mb-4">{{ burger.prix | currency:'EUR' }}</p>
+        <button (click)="selectBurger(burger)" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition duration-300">
+          Commander
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedBurger" class="mt-8">
+    <h2 class="text-2xl font-bold mb-4">Commandez votre {{ selectedBurger.nom }}</h2>
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="nom">
+          Nom
+        </label>
+        <input formControlName="nom" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nom" type="text" placeholder="Votre nom" autocomplete="family-name">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="prenom">
+          Prénom
+        </label>
+        <input formControlName="prenom" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="prenom" type="text" placeholder="Votre prénom" autocomplete="given-name">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="telephone">
+          Téléphone
+        </label>
+        <input formControlName="telephone" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="telephone" type="tel" placeholder="Votre numéro de téléphone" autocomplete="tel">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+          Email
+        </label>
+        <input formControlName="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Votre adresse email" autocomplete="email">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="quantite">
+          Quantité
+        </label>
+        <input formControlName="quantite" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="quantite" type="number" min="1" autocomplete="off">
+      </div>
+      <div class="flex items-center justify-between">
+        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" [disabled]="!clientForm.valid">
+          Passer la commande
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

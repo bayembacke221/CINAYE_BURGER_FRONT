@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BurgerService} from "./services/burger.service";
 import {ClientService} from "./services/client.service";
 import {CommandeService} from "./services/commande.service";
@@ -18,6 +18,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { PaiementManagementComponent } from './components/paiement-management/paiement-management.component';
 import {CommandeManagementComponent} from "./components/commande-management/commande-management.component";
+import { MenuComponent } from './components/menu/menu.component';
+import {AuthInterceptor} from "./services/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import {CommandeManagementComponent} from "./components/commande-management/comm
     SidebarComponent,
     MainLayoutComponent,
     CommandeManagementComponent,
-    PaiementManagementComponent
+    PaiementManagementComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import {CommandeManagementComponent} from "./components/commande-management/comm
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [BurgerService, ClientService, CommandeService, PaiementService, provideAnimationsAsync()],
+  providers: [BurgerService, ClientService, CommandeService, PaiementService, provideAnimationsAsync(),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

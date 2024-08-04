@@ -8,10 +8,12 @@ import {HomeComponent} from "./components/home/home.component";
 import {MainLayoutComponent} from "./components/main-layout/main-layout.component";
 import {CommandeManagementComponent} from "./components/commande-management/commande-management.component";
 import {PaiementManagementComponent} from "./components/paiement-management/paiement-management.component";
+import {MenuComponent} from "./components/menu/menu.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'menu', component: MenuComponent},
   { path: 'main',
     component: MainLayoutComponent,
     canActivate: [AuthGuard],

@@ -16,4 +16,8 @@ export class ClientService extends BaseService<Client> {
   getClientCommandes(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}${this.endpoint}/${id}/commandes`, { headers: this.getHeaders() });
   }
+
+  storeClient(client: Client): Observable<Client> {
+    return this.http.post<Client>(`${this.apiUrl}${this.endpoint}/store`, client);
+  }
 }

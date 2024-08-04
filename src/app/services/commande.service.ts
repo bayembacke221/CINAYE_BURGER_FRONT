@@ -44,4 +44,9 @@ export class CommandeService extends BaseService<Commande> {
   getRecettesJournalieres(date: string): Observable<any> {
     return this.http.get(`${this.apiUrl}${this.endpoint}/recettes-journalieres/${date}`, { headers: this.getHeaders() });
   }
+
+  storeCommande(commande: Commande): Observable<Commande> {
+    return this.http.post<Commande>(`${this.apiUrl}${this.endpoint}/store`,
+      commande);
+  }
 }

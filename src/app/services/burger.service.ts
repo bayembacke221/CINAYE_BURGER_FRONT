@@ -16,4 +16,8 @@ export class BurgerService extends BaseService<Burger> {
   archive(id: number): Observable<Burger> {
     return this.http.put<Burger>(`${this.apiUrl}${this.endpoint}/${id}/archive`, {},{ headers: this.getHeaders() });
   }
+
+  getAllBurgers(): Observable<Burger[]> {
+    return this.http.get<Burger[]>(`${this.apiUrl}${this.endpoint}/all`, );
+  }
 }
