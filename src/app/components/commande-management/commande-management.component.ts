@@ -63,15 +63,15 @@ export class CommandeManagementComponent implements OnInit {
     );
 
     this.commandeService.getCommandesEnCours().subscribe(
-      (data) => this.commandesEnCours = data,
+      (data:any) => {this.commandesEnCours = data.data},
       (error) => console.error('Erreur lors du chargement des commandes en cours', error)
     );
     this.commandeService.getCommandesValidees().subscribe(
-      (data) => this.commandesValidees = data,
+      (data:any) => {this.commandesValidees = data.data},
       (error) => console.error('Erreur lors du chargement des commandes validées', error)
     );
     this.commandeService.getCommandesAnnulees().subscribe(
-      (data) => this.commandesAnnulees = data,
+      (data:any) => {this.commandesAnnulees = data.data},
       (error) => console.error('Erreur lors du chargement des commandes annulées', error)
     );
   }
@@ -96,7 +96,9 @@ export class CommandeManagementComponent implements OnInit {
 
   loadStatistiquesJour(): void {
     this.commandeService.getStatistiquesJour().subscribe(
-      (data) => this.statistiquesJour = data,
+      (data:any) => {this.statistiquesJour = data.data
+        console.log('statistiquesJour:', this.statistiquesJour)
+      },
       (error) => console.error('Erreur lors du chargement des statistiques', error)
     );
   }

@@ -57,17 +57,19 @@ export class DashboardComponent implements OnInit {
 
   loadCommandes() {
     this.commandeService.getCommandesEnCours().subscribe(
-      data => this.commandesEnCours = data,
+      (data:any) => {
+        this.commandesEnCours = data.data
+      },
       error => console.error('Error loading commandes en cours', error)
     );
 
     this.commandeService.getCommandesValidees().subscribe(
-      data => this.commandesValidees = data,
+      (data:any) => {this.commandesValidees = data.data},
       error => console.error('Error loading commandes validées', error)
     );
 
     this.commandeService.getCommandesAnnulees().subscribe(
-      data => this.commandesAnnulees = data,
+      (data:any) => {this.commandesAnnulees = data.data},
       error => console.error('Error loading commandes annulées', error)
     );
   }
