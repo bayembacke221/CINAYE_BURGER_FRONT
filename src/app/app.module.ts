@@ -20,6 +20,7 @@ import { PaiementManagementComponent } from './components/paiement-management/pa
 import {CommandeManagementComponent} from "./components/commande-management/commande-management.component";
 import { MenuComponent } from './components/menu/menu.component';
 import {AuthInterceptor} from "./services/auth.interceptor";
+import { NavItemComponent } from './components/nav-item/nav-item.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {AuthInterceptor} from "./services/auth.interceptor";
     MainLayoutComponent,
     CommandeManagementComponent,
     PaiementManagementComponent,
-    MenuComponent
+    MenuComponent,
+    NavItemComponent
   ],
   imports: [
     BrowserModule,
