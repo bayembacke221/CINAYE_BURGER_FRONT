@@ -81,7 +81,6 @@ export class CommandeManagementComponent implements OnInit {
   loadStatistiquesJour(): void {
     this.commandeService.getStatistiquesJour().subscribe(
       (data:any) => {this.statistiquesJour = data.data
-        console.log('statistiquesJour:', this.statistiquesJour)
       },
       (error) => console.error('Erreur lors du chargement des statistiques', error)
     );

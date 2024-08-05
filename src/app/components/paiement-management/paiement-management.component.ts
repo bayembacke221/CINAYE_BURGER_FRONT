@@ -38,7 +38,7 @@ export class PaiementManagementComponent  implements OnInit {
 
   loadCommandes(): void {
     this.loading = true;
-    this.commandeService.getCommandesEnCours().subscribe(
+    this.commandeService.getCommandesValidees().subscribe(
       (response: any) => {
         const commandes = response.data;
         if (Array.isArray(commandes) && commandes.length > 0) {

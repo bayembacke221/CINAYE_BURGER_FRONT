@@ -58,7 +58,7 @@
                   {{ commande.etat }}
                 </span>
             </td>
-            <td class="px-4 py-2">
+            <td class="px-4 py-2" *ngIf="commande.etat != 'termine'">
               <button (click)="deleteCommande(commande.id!)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded mr-2">
                 <i class="fas fa-trash"></i> Supprimer
               </button>
